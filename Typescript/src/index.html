@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Essential JS 2 File Manager control</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="description" content="Essential JS 2" />
+    <meta name="author" content="Syncfusion" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.syncfusion.com/ej2/28.3.2/material.css" rel="stylesheet">
+    <style>
+        .file-container {
+        height:100%;
+        width:100%;
+        }
+        .title-container {
+        background-color: #eee;
+        height: 22px;
+        }
+        .doc-container, .pdf-container, .excel-container {
+        height:100%;
+        width:100%;
+        position: absolute;
+        top: 0;
+        visibility: hidden;
+        }
+        .close-button{
+        float:right;
+        }
+        body,html{
+        margin:0;
+        height:100%;
+        width:100%;
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <script>
+        function onClicked() {
+            (document.getElementsByClassName("file-container")[0]).style.visibility = "visible";
+            (document.getElementsByClassName("doc-container")[0]).style.visibility = "hidden";
+            (document.getElementsByClassName("pdf-container")[0]).style.visibility = "hidden";
+            (document.getElementsByClassName("excel-container")[0]).style.visibility = "hidden";
+        }
+    </script>
+    
+    <div class="file-container">
+        <!-- Initialize FileManager -->
+        <div id="filemanager"></div>
+    </div>
+    <div class="doc-container">
+        <div class="title-container"><span class="doc-title title"></span> <button onclick="onClicked()">close</button></div>
+        <!-- Initialize DocumentEditor-->
+        <div id="container" style="display:block;height:calc(100% - 22px)"></div>
+    </div>
+    <div class="pdf-container">
+        <div  class="title-container"><span class="pdf-title title"></span> <button  onclick='onClicked()'>close</button></div>
+        <!-- Initialize PDF Viewer-->
+        <div id="pdfViewer" style="display:block;height:calc(100% - 22px)">
+    </div>
+    <div class="excel-container">
+        <div  class="title-container"><span class="excel-title title"></span> <button  onclick='onClicked()'>close</button></div>
+        <!-- Initialize PDF Viewer-->
+        <div id="excelViewer" style="display:block;height:calc(100% - 22px)">
+    </div>
+
+</body>
+
+</html>

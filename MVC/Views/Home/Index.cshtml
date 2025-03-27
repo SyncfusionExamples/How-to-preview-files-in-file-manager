@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="control-section">
+    <div class="sample-container">
+        <div class="file-container">
+            <!--  File Manager control declaration -->
+            @Html.EJS().FileManager("file").AjaxSettings(new Syncfusion.EJ2.FileManager.FileManagerAjaxSettings
+                {
+                    Url = "http://localhost:{port}/api/FileManager/FileOperations",
+                    GetImageUrl = "http://localhost:{port}/api/FileManager/GetImage",
+                    UploadUrl = "http://localhost:{port}/api/FileManager/Upload",
+                    DownloadUrl = "http://localhost:{port}/api/FileManager/Download"
+                }).FileOpen("onFileOpen").Render()
+            <!-- end of File Manager control -->
+        </div>
+        <div class="doc-container">
+            <div class="title-container"><span class="doc-title title"></span> <button onclick="onClicked()">close</button></div>
+            <!-- Initialize DocumentEditor-->
+            @Html.EJS().DocumentEditor("container").Render()
+        </div>
+        <div class="pdf-container">
+            <div class="title-container"><span class="pdf-title title"></span> <button onclick='onClicked()'>close</button></div>
+            <!-- Initialize PDF Viewer-->
+            @Html.EJS().PdfViewer("pdfViewer").ServiceUrl("https://ej2services.syncfusion.com/production/web-services/api/pdfviewer").Render()
+        </div>
+        <div class="excel-container">
+            <div class="title-container"><span class="excel-title title"></span> <button onclick='onClicked()'>close</button></div>
+            <!-- Initialize PDF Viewer-->
+            @Html.EJS().Spreadsheet("spreadsheet").OpenUrl("http://localhost:{port}/api/FileManager/OpenExcel").Render()
+        </div>
+    </div>
+</div>
+
+<script>
+    var documenteditor;
+    document.addEventListener('DOMContentLoaded', function () {
+        var documenteditorElement = document.getElementById("container");
+        container = documenteditorElement.ej2_instances[0];
+            //container.documentEditor.saveAsBlob('Docx');
+    }); 
+    function onFileOpen(args) {
+        let fileName = args.fileDetails.name;
+        let filePath = args.fileDetails.filterPath.replace(/\\/g, "/") + fileName;
+        let fileType = args.fileDetails.type;
+        if (fileType == ".docx" || fileType == ".txt" || fileType == ".html" || fileType == ".rtf" || fileType == ".xml") {
+            showDocViewer(fileName);
+            getFileStream(filePath, false)
+        }
+        else if (fileType == ".pdf") {
+            showPDFViewer(fileName);
+            getFileStream(filePath, true);
+        }
+        else if (fileType == '.csv') {
+            showExcelViewer(fileName);
+            getBlob(filePath, fileName, fileType);
+        }
+        else if (fileType == '.pptx') {
+            showPDFViewer(fileName);
+            convertPptToPdf(filePath, fileName);
+        }
+    }
+    function showDocViewer(name) {
+        document.getElementsByClassName("doc-title")[0].innerHTML = name;
+        (document.getElementsByClassName("file-container")[0]).style.visibility = "hidden";
+        (document.getElementsByClassName("doc-container")[0]).style.visibility = "visible";
+    }
+
+    //Shows the PDF viewer
+
+    function showPDFViewer(name) {
+        (document.getElementsByClassName("file-container")[0]).style.visibility = "hidden";
+        (document.getElementsByClassName("pdf-container")[0]).style.visibility = "visible";
+        document.getElementsByClassName("pdf-title")[0].innerHTML = name;
+    }
+    function showExcelViewer(name) {
+        (document.getElementsByClassName("file-container")[0]).style.visibility = "hidden";
+        (document.getElementsByClassName("excel-container")[0]).style.visibility = "visible";
+        document.getElementsByClassName("excel-title")[0].innerHTML = name;
+    }
+
+    // sends HTTPPost Request to read the file as fileStream.
+   
+    function getFileStream(filePath, isPDF) {
+        let ajax = new XMLHttpRequest();
+        ajax.open("POST", 'http://localhost:{port}/' + "api/FileManager/GetDocument", true);
+        ajax.setRequestHeader("content-type", "application/json");
+        ajax.onreadystatechange = () => {
+            if (ajax.readyState === 4) {
+                if (ajax.status === 200 || ajax.status === 304) {
+                    if (!isPDF) {
+                        var container = (document.getElementById('container')).ej2_instances[0];
+                        container.documentEditor.open(ajax.responseText);
+                    } else {
+                        var pdfviewer = (document.getElementById('pdfViewer')).ej2_instances[0];
+                        pdfviewer.load(ajax.responseText, null);
+                    }
+                }
+            }
+        };
+        ajax.send(JSON.stringify({ "FileName": filePath, "Action": (!isPDF ? "ImportFile" : "LoadPDF") }));
+    }
+
+    function getBlob(filePath, fileName, fileType) {
+        var spreadsheet = (document.getElementById('spreadsheet')).ej2_instances[0];
+        let request = new XMLHttpRequest();
+        request.responseType = 'blob';
+        request.onload = () => {
+            let file = new File([request.response], fileName);
+            spreadsheet.open({ file: file });
+        };
+        request.open(
+            'GET',
+            'http://localhost:{port}/' + 'api/FileManager/GetExcel' + '?FileName=' + filePath
+        );
+        request.send();
+    }
+
+    function convertPptToPdf(filePath, fileName) {
+        fetch('http://localhost:{port}/api/FileManager/ConvertPptToPdf', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ FilePath: filePath }), // Send file path to backend
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to convert PPT to PDF');
+                }
+                return response.blob(); // Get the PDF blob
+            })
+            .then((blob) => {
+                var pdfviewer = (document.getElementById('pdfViewer')).ej2_instances[0];
+                const pdfUrl = URL.createObjectURL(blob); // Create a URL for the PDF blob
+                showPDFViewer(fileName);
+                pdfviewer.load(pdfUrl, '');
+            })
+            .catch((error) => {
+                console.error('Error converting PPT to PDF:', error);
+            });
+    }
+    function onClicked() {
+        (document.getElementsByClassName("file-container")[0]).style.visibility = "visible";
+        (document.getElementsByClassName("doc-container")[0]).style.visibility = "hidden";
+        (document.getElementsByClassName("pdf-container")[0]).style.visibility = "hidden";
+        (document.getElementsByClassName("excel-container")[0]).style.visibility = "hidden";
+    }
+
+</script>
+
+<style>
+    .file-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .title-container {
+        background-color: #eee;
+        height: 22px;
+    }
+
+    .doc-container, .pdf-container, .excel-container {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        visibility: hidden;
+    }
+
+    .close-button {
+        float: right;
+    }
+
+    body, html {
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+</style>

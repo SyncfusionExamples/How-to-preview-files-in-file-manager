@@ -1,0 +1,39 @@
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-icons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-grids/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-react-filemanager/styles/material.css";
+@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-react-spreadsheet/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-pdfviewer/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-documenteditor/styles/material.css";
+
+.file-container {
+    height:100%;
+    width:100%;
+}
+.title-container {
+    background-color: #eee;
+    height: 22px;
+}
+.doc-container, .pdf-container, .excel-container {
+    height:100%;
+    width:100%;
+    position: absolute;
+    top: 0;
+    visibility: hidden;
+}
+.close-button{
+    float:right;
+}
+body,html{
+    margin:0;
+    height:100%;
+    width:100%;
+}
