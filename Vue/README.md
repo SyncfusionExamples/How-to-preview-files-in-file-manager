@@ -14,6 +14,6 @@
     npm install
     ```
 
-6. Just mapping host number in the place of {port} in the ajaxSettings property of the File Manager component.
+6. Just mapping localhost port number in the place of {port} in the ajaxSettings property of the File Manager component.
 
 7. Use the `npm run serve` command to run the application in the browser.
