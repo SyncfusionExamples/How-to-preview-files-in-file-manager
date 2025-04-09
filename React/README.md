@@ -8,12 +8,12 @@
 
 4. Open the React sample application.
 
-5. To install packages, use the following command
+5. To install Syncfusion packages, use the following command
 
     ```ts
     npm install
     ```
 
-6. Just mapping host number in the place of {port} in the ajaxSettings property of the File Manager component.
+6. Just mapping localhost port number in the place of {port} in the ajaxSettings property of the File Manager component.
 
 7. Use the `npm start` command to run the application in the browser.

@@ -4,6 +4,7 @@ import { DocumentEditorContainerComponent } from '@syncfusion/ej2-react-document
 import { SpreadsheetComponent } from '@syncfusion/ej2-react-spreadsheet';
 import * as React from 'react';
 import './App.css';
+
 function App() {
     function onfileOpen(args) {
 
@@ -127,10 +128,10 @@ function App() {
         <FileManagerComponent id="file"
             ajaxSettings={{
                 // Replace the hosted port number in the place of "{port}"
+                url: hostUrl + "api/FileManager/FileOperations",
                 downloadUrl: hostUrl + 'api/FileManager/Download',
                 getImageUrl: hostUrl + "api/FileManager/GetImage",
-                uploadUrl: hostUrl + 'api/FileManager/Upload',
-                url: hostUrl + "api/FileManager/FileOperations"
+                uploadUrl: hostUrl + 'api/FileManager/Upload'
             }}
             fileOpen={onfileOpen.bind(this)}>
             <Inject services={[NavigationPane, DetailsView, Toolbar]} />
