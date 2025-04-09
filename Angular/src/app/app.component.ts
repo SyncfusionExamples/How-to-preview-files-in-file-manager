@@ -18,7 +18,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
     standalone: true,
     selector: 'app-root',
     providers: [NavigationPaneService, ToolbarService, DetailsViewService, DocToolbarService],
-    styleUrls: ['./app.component.css'],
     template: `<div class="control-section">
                 <ejs-filemanager id='default-filemanager' #fileManager [ajaxSettings]='ajaxSettings' (fileOpen)='onFileOpen($event)'>
                 </ejs-filemanager></div>
