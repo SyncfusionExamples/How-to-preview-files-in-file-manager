@@ -44,7 +44,7 @@ export class AppComponent {
     @ViewChild('pdfViewer') pdfViewer!: PdfViewerComponent;
     @ViewChild('docEditor') docEditor!: DocumentEditorContainerComponent;
     @ViewChild('spreadsheet') spreadsheet!: SpreadsheetComponent;
-    public hostUrl: string = 'http://localhost:62869/';
+    public hostUrl: string = 'http://localhost:{port}/';
     public ajaxSettings: object = {
         url: this.hostUrl + 'api/FileManager/FileOperations',
         getImageUrl: this.hostUrl + 'api/FileManager/GetImage',
@@ -57,7 +57,7 @@ export class AppComponent {
     docsFileName: string = '';
     docsFileType: string = '';
 
-    openUrl = 'http://localhost:62869/api/FileManager/OpenExcel';
+    openUrl = 'http://localhost:{port}/api/FileManager/OpenExcel';
     constructor(private http: HttpClient) {}
 
     onFileOpen(event: FileOpenEventArgs| any): void {
@@ -97,7 +97,7 @@ export class AppComponent {
     
     }
     convertPptToPdf(filePath: string, fileName: string) {
-        fetch('http://localhost:62869/api/FileManager/ConvertPptToPdf', {
+        fetch('http://localhost:{port}/api/FileManager/ConvertPptToPdf', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

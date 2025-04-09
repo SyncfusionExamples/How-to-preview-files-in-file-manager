@@ -8,12 +8,12 @@
 
 4. Open the Angular sample application.
 
-5. To download the package use the below command.
+5. To download the Syncfusion packages, use the below command.
 
     ```ts
     npm install
     ```
 
-6. Just mapping host number in the place of {port} in the ajaxSettings property of the File Manager component.
+6. Just mapping localhost port number in the place of {port} in the ajaxSettings property of the File Manager component.
 
 7. Use the `npm run start` command to run the application in the browser.
