@@ -8,8 +8,6 @@
 
 4. Open the MVC sample application.
 
-5. Open the NuGet package manager in Visual Studio (Tools → NuGet Package Manager → Manage NuGet Packages for Solution), search for `Syncfusion.EJ2.MVC5` and then install it.
+5. Just mapping localhost port number in the place of {port} in the AjaxSettings property of the File Manager component.
 
-6. Just mapping host number in the place of {port} in the AjaxSettings property of the File Manager component.
-
-7. Run the application in the browser.
+6. Run the application in the browser.
